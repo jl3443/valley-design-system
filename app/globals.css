@@ -1,0 +1,239 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Valley Bank DS — design tokens
+   Every value below is captured live from valley.com via getComputedStyle().
+   Provenance: docs/capture/valley-evidence.md (2026-05-21).
+   Stack: Tailwind v4 @theme block — exposes tokens to utilities (bg-brand-navy,
+   text-brand-yellow, radius-pill, etc.) AND to component CSS via var(--token-name).
+   ───────────────────────────────────────────────────────────────────────── */
+
+@theme {
+  /* ── Brand color anchors ── */
+  --color-brand-navy: #002c4e;          /* primary anchor — buttons, hero overlays, headings */
+  --color-brand-navy-deep: #112e44;     /* dark variant — alt buttons */
+  --color-brand-navy-light: #163d5c;    /* mid navy — hover/interior */
+  --color-brand-yellow: #f3d01c;        /* signature accent — header secondary, product card bg */
+  --color-brand-yellow-dark: #b69c15;   /* dark gold variant */
+  --color-brand-slate: #788995;         /* tertiary brand */
+  --color-brand-cream: #fefae8;         /* hover/active light surface */
+  --color-brand-light-navy: #e6eaed;    /* cool surface */
+
+  /* ── Secondary / accent palette ── */
+  --color-accent-maroon: #860c4e;
+  --color-accent-orange: #f25b3a;
+  --color-accent-green: #00685e;        /* success + accent */
+  --color-accent-forest: #175e21;       /* secondary-13 CTA */
+  --color-accent-blue: #0042a5;         /* page info, links, focus */
+  --color-accent-error: #b8232f;        /* error border */
+  --color-accent-error-tint: #feefeb;   /* error background tint */
+
+  /* ── Neutral scale ── */
+  --color-ink: #323a3f;                 /* body text (Valley --fg-main-color) */
+  --color-ink-soft: #5c646c;            /* secondary text */
+  --color-divider: #dee2e6;             /* borders */
+  --color-surface: #f2f3f4;             /* card / section background */
+  --color-surface-soft: #f8f9fa;        /* alt surface */
+  --color-page: #ffffff;
+  --color-overlay: rgb(0 0 0 / 0.5);
+
+  /* ── Typography ── */
+  --font-display: "Cormorant Garamond", "ivypresto-headline", "Times New Roman", serif;
+  --font-sans: "DM Sans", "Autor", system-ui, sans-serif;
+  --font-prose: "Roboto", arial, sans-serif;
+
+  /* Sizes — captured from h1/h2/h3/p getComputedStyle */
+  --text-display: 34px;                 /* h1, h2 (300 weight, 1px tracking, 42 lh) */
+  --text-h3: 18px;
+  --text-body: 16px;
+  --text-small: 14px;
+  --text-eyebrow: 11px;
+
+  /* ── Radius scale — from radiusHistogram ── */
+  --radius-input: 2px;
+  --radius-control: 3px;
+  --radius-surface: 8px;
+  --radius-card: 16px;
+  --radius-pill: 100px;                 /* primary CTA */
+  --radius-circle: 9999px;
+
+  /* ── Shadow tokens — from shadowHistogram ── */
+  --shadow-card: 0 4px 10px rgb(0 0 0 / 0.2);
+  --shadow-elevated: 0 16px 40px rgb(0 0 0 / 0.05);
+  --shadow-glow: 0 0 12px rgb(0 0 0 / 0.08);
+  --shadow-ring-navy: 0 0 0 1px #002c4e;
+  --shadow-ring-navy-deep: 0 0 0 1px #112e44;
+  --shadow-article: 0 2px 8px rgb(0 44 78 / 0.1);
+
+  /* ── Motion contracts — synthesized from transition histogram ── */
+  --motion-fast: 150ms;
+  --motion-base: 250ms;
+  --motion-slide: 300ms;
+  --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ease-in-out: ease-in-out;
+
+  /* ── Layout ── */
+  --header-height: 125px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Pass through Valley's own --vbk-* variables verbatim for fidelity tests
+   (so a copy-paste from valley.com inline styles still resolves).
+   ───────────────────────────────────────────────────────────────────────── */
+:root {
+  --vbk-text-main-1-color: #002c4e;
+  --vbk-heading-color-main-1: #002c4e;
+  --vbk-heading-color-main-2: #f3d01c;
+  --vbk-heading-color-main-3: #788995;
+  --vbk-heading-color-semantic-info: #0042a5;
+  --vbk-heading-color-secondary-1: #860c4e;
+  --vbk-heading-color-secondary-2: #f25b3a;
+  --vbk-heading-color-semantic-success: #00685e;
+  --vbk-button-main-1-bg-color: #002c4e;
+  --vbk-button-main-1-color: #002c4e;
+  --vbk-button-main-2-color: #f3d01c;
+  --vbk-button-dark-main-1-bg-color: #112e44;
+  --vbk-button-semantic-success-bg-color: #00685e;
+  --vbk-button-secondary-13-bg-color: #175e21;
+  --vbk-Header-yellow-color: #f3d01c;
+  --vbk-Header-navy-light-color: #e6eaed;
+  --vbk-page-blue-info-color: #0042a5;
+  --vbk-input-error-border-color: #b8232f;
+  --vbk-input-error-bg-color: #feefeb;
+  --vbk-input-focus-border-color: #0042a5;
+  --fg-main-color: #323a3f;
+  --fg-accent-color: #00685e;
+  --fg-theme-color: #323a3f;
+  --bg-theme-color: #ffffff;
+  --header-height: 125px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Base layer
+   ───────────────────────────────────────────────────────────────────────── */
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-page);
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.5;
+    color: var(--color-ink);
+  }
+  h1, h2 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: var(--text-display);
+    line-height: 42px;
+    letter-spacing: 1px;
+    color: var(--color-ink);
+  }
+  h3 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--text-h3);
+    line-height: 28px;
+    color: var(--color-ink);
+  }
+  p {
+    font-family: var(--font-prose);
+    font-size: var(--text-body);
+    line-height: 24px;
+    color: var(--color-ink);
+  }
+  a:focus-visible {
+    outline: 2px solid var(--color-accent-blue);
+    outline-offset: 2px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Component primitives (rebuilt from captured states — see docs/capture/)
+   ───────────────────────────────────────────────────────────────────────── */
+@layer components {
+  /* Primary CTA — navy pill — captured signature: bg=#002c4e, radius=100px,
+     padding=6px 20px, Roboto 16 600, 4px transparent border (focus expansion). */
+  .vb-cta-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--color-brand-navy);
+    color: #ffffff;
+    border-radius: var(--radius-pill);
+    padding: 6px 20px;
+    font-family: var(--font-prose);
+    font-size: var(--text-body);
+    font-weight: 600;
+    border: 4px solid transparent;
+    cursor: pointer;
+    transition: background-color var(--motion-fast) var(--ease-in-out),
+                color var(--motion-fast) var(--ease-in-out),
+                border-color var(--motion-fast) var(--ease-in-out),
+                box-shadow var(--motion-fast) var(--ease-in-out);
+  }
+  /* NOTE: hover/focus/active states will be re-anchored after v2 capture.
+     Placeholders below approximate based on radius/border conventions. */
+  .vb-cta-primary:hover {
+    background: var(--color-brand-navy-deep);
+    border-color: var(--color-brand-yellow);
+  }
+  .vb-cta-primary:focus-visible {
+    outline: none;
+    border-color: var(--color-brand-yellow);
+    box-shadow: var(--shadow-ring-navy);
+  }
+  .vb-cta-primary:active {
+    background: var(--color-brand-navy-light);
+  }
+  .vb-cta-primary:disabled {
+    background: var(--color-divider);
+    color: var(--color-ink-soft);
+    cursor: not-allowed;
+  }
+
+  /* Sign-in card / soft-rounded white tile — captured: white bg, radius=16px,
+     padding=16px, 1px border #e6eaed, Autor 16/400 */
+  .vb-tile {
+    display: block;
+    background: #ffffff;
+    color: var(--color-ink);
+    border-radius: var(--radius-card);
+    padding: 16px;
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    font-weight: 400;
+    border: 1px solid var(--color-brand-light-navy);
+    transition: box-shadow var(--motion-fast) var(--ease-in-out),
+                border-color var(--motion-fast) var(--ease-in-out);
+  }
+  .vb-tile:hover {
+    box-shadow: var(--shadow-card);
+    border-color: var(--color-ink-soft);
+  }
+  .vb-tile:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-ring-navy);
+  }
+
+  /* Eyebrow text — used on section labels (Valley convention) */
+  .vb-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--text-eyebrow);
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--color-ink-soft);
+  }
+
+  /* Brand bar — narrow yellow accent strip used on section dividers */
+  .vb-accent-bar {
+    height: 4px;
+    width: 48px;
+    background: var(--color-brand-yellow);
+    border-radius: var(--radius-input);
+  }
+}
